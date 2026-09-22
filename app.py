@@ -89,9 +89,97 @@ def check_language_mismatch(text, expected_language="en"):
     
     return result
 
-# Initialize session state for alerts
+# Sample data for demonstration
+SAMPLE_ALERTS = [
+    {
+        "id": "ALT-20240922101530",
+        "name": "Rahul Kumar",
+        "email": "rahul.kumar@gmail.com",
+        "phone": "+919876543210",
+        "message": "हाय, मुझे आपकी सेवाओं के बारे में जानना है। कृपया मुझे कॉल करें।",
+        "full_message": "हाय, मुझे आपकी सेवाओं के बारे में जानना है। कृपया मुझे कॉल करें।",
+        "language": "Hindi",
+        "confidence": 0.92,
+        "bd_team": "Hindi BD Team",
+        "status": "new",
+        "created_at": "2024-09-22 10:15:30",
+        "requires_action": True
+    },
+    {
+        "id": "ALT-20240922103045",
+        "name": "Priya Sharma",
+        "email": "priya.s@email.com",
+        "phone": "+919876543211",
+        "message": "வணக்கம், உங்கள் சேவைகள் பற்றி தெரிந்து கொள்ள விரும்புகிறேன்",
+        "full_message": "வணக்கம், உங்கள் சேவைகள் பற்றி தெரிந்து கொள்ள விரும்புகிறேன்",
+        "language": "Tamil",
+        "confidence": 0.88,
+        "bd_team": "Tamil BD Team",
+        "status": "acknowledged",
+        "created_at": "2024-09-22 10:30:45",
+        "requires_action": True
+    },
+    {
+        "id": "ALT-20240922104520",
+        "name": "Venkat Reddy",
+        "email": "venkat.r@outlook.com",
+        "phone": "+919876543212",
+        "message": "హలో, మీ సేవల గురించి తెలుసుకోవాలని అనుకుంటున్నాను",
+        "full_message": "హలో, మీ సేవల గురించి తెలుసుకోవాలని అనుకుంటున్నాను",
+        "language": "Telugu",
+        "confidence": 0.85,
+        "bd_team": "Telugu BD Team",
+        "status": "in_progress",
+        "created_at": "2024-09-22 10:45:20",
+        "requires_action": True
+    },
+    {
+        "id": "ALT-20240922110015",
+        "name": "Amit Das",
+        "email": "amit.das@gmail.com",
+        "phone": "+919876543213",
+        "message": "হ্যালো, আমি আপনার পরিষেবা সম্পর্কে জানতে চাই",
+        "full_message": "হ্যালো, আমি আপনার পরিষেবা সম্পর্কে জানতে চাই",
+        "language": "Bengali",
+        "confidence": 0.90,
+        "bd_team": "Bengali BD Team",
+        "status": "new",
+        "created_at": "2024-09-22 11:00:15",
+        "requires_action": True
+    },
+    {
+        "id": "ALT-20240922111500",
+        "name": "Suresh Patil",
+        "email": "suresh.p@yahoo.com",
+        "phone": "+919876543214",
+        "message": "Hello, I would like to know more about your services and pricing",
+        "full_message": "Hello, I would like to know more about your services and pricing",
+        "language": "English",
+        "confidence": 0.95,
+        "bd_team": "English BD Team",
+        "status": "resolved",
+        "created_at": "2024-09-22 11:15:00",
+        "requires_action": False
+    },
+    {
+        "id": "ALT-20240922113030",
+        "name": "Meera Nair",
+        "email": "meera.n@gmail.com",
+        "phone": "+919876543216",
+        "message": "ഹലോ, നിങ്ങളുടെ സേവനങ്ങളെക്കുറിച്ച് കൂടുതൽ അറിയാൻ ആഗ്രഹിക്കുന്നു",
+        "full_message": "ഹലോ, നിങ്ങളുടെ സേവനങ്ങളെക്കുറിച്ച് കൂടുതൽ അറിയാൻ ആഗ്രഹിക്കുന്നു",
+        "language": "Malayalam",
+        "confidence": 0.87,
+        "bd_team": "Malayalam BD Team",
+        "status": "new",
+        "created_at": "2024-09-22 11:30:30",
+        "requires_action": True
+    },
+]
+
+# Initialize session state for alerts with sample data
 if "alerts" not in st.session_state:
-    st.session_state.alerts = []
+    st.session_state.alerts = SAMPLE_ALERTS.copy()
 
 # Title
 st.title("🌐 Language Barrier Lead Alert System")
